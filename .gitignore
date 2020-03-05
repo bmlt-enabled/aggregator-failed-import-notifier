@@ -1,0 +1,7 @@
+.idea
+.DS_Store
+venv
+web.hook
+terraform/tfin_lambda.zip
+terraform/.terraform
+terraform/terraform.tfstate.backup
