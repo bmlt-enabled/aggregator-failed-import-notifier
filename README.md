@@ -17,7 +17,9 @@ is done and we will know right away if a import failed.
 
 ## Setup
 
-To install clone this repo, then from the terraform directory. Set the `slack_webhook` variable in the `variables.tf` file to the slack incoming web hook. Then run.
+To install clone this repo, then from the terraform directory. You then should login to console and set the hook in the 
+lambdas env variable. Setting it in the variable can be dangerous because if you then commit the state file you would have
+ also commited the hook. Then run.
 
 ```
 terraform init
