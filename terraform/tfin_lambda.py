@@ -9,7 +9,7 @@ slack_url = os.environ.get('SLACK_WEBHOOK')
 
 def send_slack_alert(message_to_send, webhook_url):
     payload = {
-        'channel': 'test-hook',
+        'channel': 'root-status',
         'username': 'tomato-bot',
         'text': '',
         'icon_emoji': ':tomato:',
@@ -45,21 +45,20 @@ def lambda_handler(event, context):
         last_import_formatted = last_import_dt.strftime("%d-%b-%Y (%H:%M:%S)")
 
         if last_import_ts < started_at_ts:
-            continue
-        print("Failed Import: ", root["name"])
-        message = {"color": "#ff6600",
-                   "fallback": "Tomato Failed Import.",
-                   "title": "Tomato Failed Import",
-                   "title_link": "https://tomato.na-bmlt.org/rest/v1/rootservers/",
-                   "footer": "BMLT-Enabled",
-                   "footer_icon": "https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2018-12-26/512035188372_266e0f7e633d3b17af73_132.png",
-                   "ts": datetime.utcnow().timestamp(),
-                   "fields": [
-                       {"title": "Root Server", "value": root["root_server_url"], "short": False},
-                       {"title": "Last Import", "value": last_import_formatted, "short": True}
-                   ]
-                   }
-        if slack_url:
-            send_slack_alert(message, slack_url)
-        else:
-            print(message)
+            print("Failed Import: ", root["name"])
+            message = {"color": "#ff6600",
+                       "fallback": "Tomato Failed Import.",
+                       "title": "Tomato Failed Import",
+                       "title_link": "https://tomato.na-bmlt.org/rest/v1/rootservers/",
+                       "footer": "BMLT-Enabled",
+                       "footer_icon": "https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2018-12-26/512035188372_266e0f7e633d3b17af73_132.png",
+                       "ts": datetime.utcnow().timestamp(),
+                       "fields": [
+                           {"title": "Root Server", "value": root["root_server_url"], "short": False},
+                           {"title": "Last Import", "value": last_import_formatted, "short": True}
+                       ]
+                       }
+            if slack_url:
+                send_slack_alert(message, slack_url)
+            else:
+                print(message)
