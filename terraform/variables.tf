@@ -5,5 +5,5 @@ variable "slack_webhook" {
 
 variable "tomato_cluster" {
   type    = string
-  default = "arn:aws:ecs:us-east-1:198201167080:cluster/tomato"
+  default = "arn:aws:ecs:us-east-1:766033189774:cluster/tomato"
 }
