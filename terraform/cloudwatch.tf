@@ -14,6 +14,12 @@ resource "aws_cloudwatch_event_rule" "tomato_import_state" {
   "detail": {
     "clusterArn": [
       "${var.tomato_cluster}"
+    ],
+    "desiredStatus": [
+      "STOPPED"
+    ],
+    "group": [
+      "family:tomato-root-server-import"
     ]
   }
 }
