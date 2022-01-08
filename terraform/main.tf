@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket  = "tomato-terraform-state-mvana"
+    bucket  = "mvana-account-terraform"
     key     = "failed-import-state"
     region  = "us-east-1"
     profile = "mvana"

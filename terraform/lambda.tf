@@ -10,7 +10,7 @@ resource "aws_lambda_function" "tfin_lambda" {
   role                           = aws_iam_role.tfin_lambda.arn
   handler                        = "tfin_lambda.lambda_handler"
   source_code_hash               = data.archive_file.tfin_lambda.output_base64sha256
-  runtime                        = "python3.8"
+  runtime                        = "python3.9"
   memory_size                    = 128
   timeout                        = 30
   reserved_concurrent_executions = 1
