@@ -40,7 +40,7 @@ def lambda_handler(event, context):
     root_servers = json.loads(body)
 
     for root in root_servers:
-        last_import_dt = datetime.strptime(root["last_successful_import"], '%Y-%m-%dT%H:%M:%S.%fZ')
+        last_import_dt = datetime.strptime(root["lastSuccessfulImport"], '%Y-%m-%d %H:%M:%S')
         last_import_ts = (last_import_dt - datetime(1970, 1, 1)).total_seconds()
         last_import_formatted = last_import_dt.strftime("%d-%b-%Y (%H:%M:%S)")
 
@@ -54,7 +54,7 @@ def lambda_handler(event, context):
                        "footer_icon": "https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2018-12-26/512035188372_266e0f7e633d3b17af73_132.png",
                        "ts": datetime.utcnow().timestamp(),
                        "fields": [
-                           {"title": "Root Server", "value": root["root_server_url"], "short": False},
+                           {"title": "Root Server", "value": root["url"], "short": False},
                            {"title": "Last Import", "value": last_import_formatted, "short": True}
                        ]
                        }
