@@ -1,11 +1,11 @@
-# Tomato Import Failure Notifier
+# Aggregator Import Failure Notifier
 
-Checks for failed tomato imports and then sends slack notification to the BMLT-Enabled `root-status` channel.
+Checks for failed aggregator imports and then sends slack notification to the BMLT-Enabled `root-status` channel.
 
 ## What does this do?
 
-This creates a lambda that gets triggered whenever the tomato ECS task state changes, It then checks if the desired 
-status is stopped so we know that the task has ended. We then hit the root server endpoint of tomato and check if any of 
+This creates a lambda that gets triggered whenever the aggregator ECS task state changes, It then checks if the desired 
+status is stopped so we know that the task has ended. We then hit the root server endpoint of aggregator and check if any of 
 last successful import times is less than the ECS task start time. If it is then it sends a slack notification to the 
 BMLT-Enabled `root-status` channel.
 

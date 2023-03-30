@@ -1,15 +1,15 @@
-data "archive_file" "tfin_lambda" {
+data "archive_file" "lambda" {
   type        = "zip"
-  source_file = "tfin_lambda.py"
-  output_path = "tfin_lambda.zip"
+  source_file = "lambda.py"
+  output_path = "lambda.zip"
 }
 
-resource "aws_lambda_function" "tfin_lambda" {
-  filename                       = "tfin_lambda.zip"
-  function_name                  = "TomatoFailedImportNotifier"
-  role                           = aws_iam_role.tfin_lambda.arn
-  handler                        = "tfin_lambda.lambda_handler"
-  source_code_hash               = data.archive_file.tfin_lambda.output_base64sha256
+resource "aws_lambda_function" "lambda" {
+  filename                       = "lambda.zip"
+  function_name                  = "AggregatorFailedImportNotifier"
+  role                           = aws_iam_role.lambda.arn
+  handler                        = "lambda.lambda_handler"
+  source_code_hash               = data.archive_file.lambda.output_base64sha256
   runtime                        = "python3.9"
   memory_size                    = 128
   timeout                        = 30
@@ -22,10 +22,10 @@ resource "aws_lambda_function" "tfin_lambda" {
   }
 }
 
-resource "aws_lambda_permission" "tfin_allow_cloudwatch" {
-  statement_id  = "TfinAllowExecutionFromCloudWatch"
+resource "aws_lambda_permission" "allow_cloudwatch" {
+  statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.tfin_lambda.function_name
+  function_name = aws_lambda_function.lambda.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.tomato_import_state.arn
+  source_arn    = aws_cloudwatch_event_rule.aggregator_import_state.arn
 }

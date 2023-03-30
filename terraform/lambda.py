@@ -3,14 +3,14 @@ import json
 from datetime import datetime
 from urllib.request import *
 
-tomato_url = "https://tomato.bmltenabled.org/rest/v1/rootservers/"
+aggregator_url = "https://tomato.bmltenabled.org/main_server/api/v1/rootservers"
 slack_url = os.environ.get('SLACK_WEBHOOK')
 
 
 def send_slack_alert(message_to_send, webhook_url):
     payload = {
         'channel': 'root-status',
-        'username': 'tomato-bot',
+        'username': 'aggregator-bot',
         'text': '',
         'icon_emoji': ':tomato:',
         "attachments": [message_to_send]
@@ -33,7 +33,7 @@ def lambda_handler(event, context):
     started_at_dt = datetime.strptime(started_at, '%Y-%m-%dT%H:%M:%S.%fZ')
     started_at_ts = (started_at_dt - datetime(1970, 1, 1)).total_seconds()
 
-    req = Request(url=tomato_url, headers={}, method='GET')
+    req = Request(url=aggregator_url, headers={}, method='GET')
     with urlopen(req) as res:
         body = res.read().decode()
 
@@ -47,9 +47,9 @@ def lambda_handler(event, context):
         if last_import_ts < started_at_ts:
             print("Failed Import: ", root["name"])
             message = {"color": "#ff6600",
-                       "fallback": "Tomato Failed Import.",
-                       "title": "Tomato Failed Import",
-                       "title_link": "https://tomato.na-bmlt.org/rest/v1/rootservers/",
+                       "fallback": "Aggregator Failed Import.",
+                       "title": "Aggregator Failed Import",
+                       "title_link": aggregator_url,
                        "footer": "BMLT-Enabled",
                        "footer_icon": "https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2018-12-26/512035188372_266e0f7e633d3b17af73_132.png",
                        "ts": datetime.utcnow().timestamp(),
