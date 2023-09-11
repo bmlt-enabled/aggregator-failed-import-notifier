@@ -17,7 +17,7 @@ resource "aws_lambda_function" "lambda" {
 
   environment {
     variables = {
-      SLACK_WEBHOOK = var.slack_webhook
+      SLACK_WEBHOOK = aws_ssm_parameter.slack_webhook.value
     }
   }
 }
@@ -28,4 +28,19 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
   function_name = aws_lambda_function.lambda.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.aggregator_import_state.arn
+}
+
+import {
+  to = aws_ssm_parameter.slack_webhook
+  id = "/aggregator/slack_webhook"
+}
+
+resource "aws_ssm_parameter" "slack_webhook" {
+  name  = "/aggregator/slack_webhook"
+  type  = "String"
+  value = "ADDED_IN_CONSOLE_MANUALLY"
+  tags  = { Name = "AFIN - SSMParam - SLACK WEBHOOK" }
+  lifecycle {
+    ignore_changes = [value]
+  }
 }

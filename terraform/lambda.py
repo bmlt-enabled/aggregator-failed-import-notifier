@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 from urllib.request import *
 
-aggregator_url = "https://tomato.bmltenabled.org/main_server/api/v1/rootservers"
+aggregator_url = "https://aggregator.bmltenabled.org/main_server/api/v1/rootservers"
 slack_url = os.environ.get('SLACK_WEBHOOK')
 
 
@@ -62,3 +62,5 @@ def lambda_handler(event, context):
                 send_slack_alert(message, slack_url)
             else:
                 print(message)
+        else:
+            print("Passed Import: ", root["name"])
